@@ -137,7 +137,7 @@ save_cache(uuid_cache_file, uuid_cache)
 
 ## Testing
 
-Make sure test dependencies are installed: `pip install ".[test]"`
+Make sure test dependencies are installed: `uv sync --group dev`
 
 Run the tests using pytest:
 

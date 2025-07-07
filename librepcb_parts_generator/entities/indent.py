@@ -1,6 +1,6 @@
 from typing import Any, Iterable
 
-from common import indent
+from ..helpers import indent
 
 
 def indent_entity(entity: Any) -> str:
@@ -13,8 +13,8 @@ def indent_entity(entity: Any) -> str:
     >>> indent_entity('(bar "2"\\n (baz "3")\\n)')
     ' (bar "2"\\n  (baz "3")\\n )\\n'
     """
-    result = '\n'.join(indent(1, str(entity).splitlines()))
-    result += '\n'
+    result = "\n".join(indent(1, str(entity).splitlines()))
+    result += "\n"
     return result
 
 
@@ -26,4 +26,4 @@ def indent_entities(entities: Iterable[Any]) -> str:
     >>> indent_entities(['(bar "2")', '(bar "3")'])
     ' (bar "2")\\n (bar "3")\\n'
     """
-    return ''.join(map(indent_entity, entities))
+    return "".join(map(indent_entity, entities))

@@ -3,55 +3,58 @@ LibrePCB S-expression entities
 """
 
 from enum import Enum
-
 from typing import List, Optional
 
-from common import escape_string, format_float
-
-from .helper import indent_entities
+from ..helpers import escape_string, format_float
+from .indent import indent_entities
 
 
 class EnumValue(Enum):
     """Helper class to represent enumeration like values"""
+
     def get_name(self) -> str:
-        raise NotImplementedError('Override get_name in subclass')
+        raise NotImplementedError("Override get_name in subclass")
 
     def __str__(self) -> str:
-        return '({} {})'.format(self.get_name(), self.value)
+        return "({} {})".format(self.get_name(), self.value)
 
 
-class DateValue():
+class DateValue:
     """Helper class to represent a single named date value"""
+
     def __init__(self, name: str, date: str):
         self.name = name
         self.date = date
 
     def __str__(self) -> str:
-        return '({} {})'.format(self.name, self.date)
+        return "({} {})".format(self.name, self.date)
 
 
-class UUIDValue():
+class UUIDValue:
     """Helper class to represent a single named UUID value"""
+
     def __init__(self, name: str, uuid: str):
         self.name = name
         self.uuid = uuid
 
     def __str__(self) -> str:
-        return '({} {})'.format(self.name, self.uuid)
+        return "({} {})".format(self.name, self.uuid)
 
 
-class BoolValue():
+class BoolValue:
     """Helper class to represent a single named boolean value"""
+
     def __init__(self, name: str, value: bool):
         self.name = name
         self.value = str(value).lower()
 
     def __str__(self) -> str:
-        return '({} {})'.format(self.name, self.value)
+        return "({} {})".format(self.name, self.value)
 
 
-class StringValue():
+class StringValue:
     """Helper class to represent a single named string value"""
+
     def __init__(self, name: str, value: str):
         self.name = name
         self.value = value
@@ -60,153 +63,165 @@ class StringValue():
         return '({} "{}")'.format(self.name, escape_string(self.value))
 
 
-class FloatValue():
+class FloatValue:
     """Helper class to represent a single named float value"""
+
     def __init__(self, name: str, value: float):
         self.name = name
         self.value = value
 
     def __str__(self) -> str:
-        return '({} {})'.format(self.name, format_float(self.value))
+        return "({} {})".format(self.name, format_float(self.value))
 
 
 class Name(StringValue):
     def __init__(self, name: str):
-        super().__init__('name', name)
+        super().__init__("name", name)
 
 
 class Description(StringValue):
     def __init__(self, description: str):
-        super().__init__('description', description)
+        super().__init__("description", description)
 
 
 class Keywords(StringValue):
     def __init__(self, keywords: str):
-        super().__init__('keywords', keywords)
+        super().__init__("keywords", keywords)
 
 
 class Author(StringValue):
     def __init__(self, author: str):
-        super().__init__('author', author)
+        super().__init__("author", author)
 
 
 class Version(StringValue):
     def __init__(self, version: str):
-        super().__init__('version', version)
+        super().__init__("version", version)
 
 
 class Created(DateValue):
     def __init__(self, created: str):
-        super().__init__('created', created)
+        super().__init__("created", created)
 
 
 class Deprecated(BoolValue):
     def __init__(self, deprecated: bool):
-        super().__init__('deprecated', deprecated)
+        super().__init__("deprecated", deprecated)
 
 
 class GeneratedBy(StringValue):
     def __init__(self, generated_by: str):
-        super().__init__('generated_by', generated_by)
+        super().__init__("generated_by", generated_by)
 
 
 class Category(UUIDValue):
     def __init__(self, category: str):
-        super().__init__('category', category)
+        super().__init__("category", category)
 
 
-class Position():
+class Position:
     def __init__(self, x: float, y: float):
         self.x = x
         self.y = y
 
     def __str__(self) -> str:
-        return '(position {} {})'.format(format_float(self.x), format_float(self.y))
+        return "(position {} {})".format(format_float(self.x), format_float(self.y))
 
 
-class Position3D():
+class Position3D:
     def __init__(self, x: float, y: float, z: float):
         self.x = x
         self.y = y
         self.z = z
 
     @staticmethod
-    def zero() -> 'Position3D':
+    def zero() -> "Position3D":
         return Position3D(0.0, 0.0, 0.0)
 
     def __str__(self) -> str:
-        return '(3d_position {} {} {})'.format(format_float(self.x), format_float(self.y), format_float(self.z))
+        return "(3d_position {} {} {})".format(
+            format_float(self.x), format_float(self.y), format_float(self.z)
+        )
 
 
 class Rotation(FloatValue):
     def __init__(self, rotation: float):
-        super().__init__('rotation', rotation)
+        super().__init__("rotation", rotation)
 
 
-class Rotation3D():
+class Rotation3D:
     def __init__(self, x: float, y: float, z: float):
         self.x = x
         self.y = y
         self.z = z
 
     @staticmethod
-    def zero() -> 'Rotation3D':
+    def zero() -> "Rotation3D":
         return Rotation3D(0.0, 0.0, 0.0)
 
     def __str__(self) -> str:
-        return '(3d_rotation {} {} {})'.format(format_float(self.x), format_float(self.y), format_float(self.z))
+        return "(3d_rotation {} {} {})".format(
+            format_float(self.x), format_float(self.y), format_float(self.z)
+        )
 
 
 class Length(FloatValue):
     def __init__(self, length: float):
-        super().__init__('length', length)
+        super().__init__("length", length)
 
 
 class Width(FloatValue):
     def __init__(self, width: float):
-        super().__init__('width', width)
+        super().__init__("width", width)
 
 
 class Height(FloatValue):
     def __init__(self, height: float):
-        super().__init__('height', height)
+        super().__init__("height", height)
 
 
 class Angle(FloatValue):
     def __init__(self, angle: float):
-        super().__init__('angle', angle)
+        super().__init__("angle", angle)
 
 
 class Fill(BoolValue):
     def __init__(self, fill: bool):
-        super().__init__('fill', fill)
+        super().__init__("fill", fill)
 
 
 class GrabArea(BoolValue):
     def __init__(self, grab_area: bool):
-        super().__init__('grab_area', grab_area)
+        super().__init__("grab_area", grab_area)
 
 
-class Vertex():
+class Vertex:
     def __init__(self, position: Position, angle: Angle):
         self.position = position
         self.angle = angle
 
     def __str__(self) -> str:
-        return '(vertex {} {})'.format(self.position, self.angle)
+        return "(vertex {} {})".format(self.position, self.angle)
 
 
-class Layer():
+class Layer:
     def __init__(self, layer: str):
         self.layer = layer
 
     def __str__(self) -> str:
-        return '(layer {})'.format(self.layer)
+        return "(layer {})".format(self.layer)
 
 
-class Polygon():
-    def __init__(self, uuid: str, layer: Layer, width: Width, fill: Fill,
-                 grab_area: GrabArea, vertices: Optional[List[Vertex]] = None):
+class Polygon:
+    def __init__(
+        self,
+        uuid: str,
+        layer: Layer,
+        width: Width,
+        fill: Fill,
+        grab_area: GrabArea,
+        vertices: Optional[List[Vertex]] = None,
+    ):
         self.uuid = uuid
         self.layer = layer
         self.width = width
@@ -218,10 +233,11 @@ class Polygon():
         self.vertices.append(vertex)
 
     def __str__(self) -> str:
-        ret = '(polygon {} {}\n'.format(self.uuid, self.layer) +\
-            ' {} {} {}\n'.format(self.width, self.fill, self.grab_area)
+        ret = "(polygon {} {}\n".format(self.uuid, self.layer) + " {} {} {}\n".format(
+            self.width, self.fill, self.grab_area
+        )
         ret += indent_entities(self.vertices)
-        ret += ')'
+        ret += ")"
         return ret
 
 
@@ -251,7 +267,7 @@ def generate_courtyard(
     dy = max_y + excess_y
     return Polygon(
         uuid=uuid,
-        layer=Layer('top_courtyard'),
+        layer=Layer("top_courtyard"),
         width=Width(0),
         fill=Fill(False),
         grab_area=GrabArea(False),
@@ -267,12 +283,20 @@ def generate_courtyard(
 
 class Diameter(FloatValue):
     def __init__(self, diameter: float):
-        super().__init__('diameter', diameter)
+        super().__init__("diameter", diameter)
 
 
-class Circle():
-    def __init__(self, uuid: str, layer: Layer, width: Width, fill: Fill,
-                 grab_area: GrabArea, diameter: Diameter, position: Position):
+class Circle:
+    def __init__(
+        self,
+        uuid: str,
+        layer: Layer,
+        width: Width,
+        fill: Fill,
+        grab_area: GrabArea,
+        diameter: Diameter,
+        position: Position,
+    ):
         self.uuid = uuid
         self.layer = layer
         self.width = width
@@ -282,28 +306,38 @@ class Circle():
         self.position = position
 
     def __str__(self) -> str:
-        ret = '(circle {} {}\n'.format(self.uuid, self.layer)
-        ret += ' {} {} {} {} {}\n'.format(self.width, self.fill, self.grab_area,
-                                          self.diameter, self.position)
-        ret += ')'
+        ret = "(circle {} {}\n".format(self.uuid, self.layer)
+        ret += " {} {} {} {} {}\n".format(
+            self.width, self.fill, self.grab_area, self.diameter, self.position
+        )
+        ret += ")"
         return ret
 
 
 class Value(StringValue):
     def __init__(self, value: str):
-        super().__init__('value', value)
+        super().__init__("value", value)
 
 
-class Align():
+class Align:
     def __init__(self, align: str):
         self.align = align
 
     def __str__(self) -> str:
-        return '(align {})'.format(self.align)
+        return "(align {})".format(self.align)
 
 
-class Text():
-    def __init__(self, uuid: str, layer: Layer, value: Value, align: Align, height: Height, position: Position, rotation: Rotation):
+class Text:
+    def __init__(
+        self,
+        uuid: str,
+        layer: Layer,
+        value: Value,
+        align: Align,
+        height: Height,
+        position: Position,
+        rotation: Rotation,
+    ):
         self.uuid = uuid
         self.layer = layer
         self.value = value
@@ -313,18 +347,26 @@ class Text():
         self.rotation = rotation
 
     def __str__(self) -> str:
-        return '(text {} {} {}\n'.format(self.uuid, self.layer, self.value) +\
-               ' {} {} {} {}\n'.format(self.align, self.height, self.position, self.rotation) +\
-               ')'
+        return (
+            "(text {} {} {}\n".format(self.uuid, self.layer, self.value)
+            + " {} {} {} {}\n".format(
+                self.align, self.height, self.position, self.rotation
+            )
+            + ")"
+        )
 
 
-class Resource():
+class Resource:
     def __init__(self, name: str, mediatype: str, url: str):
         self.name = name
         self.mediatype = mediatype
         self.url = url
 
     def __str__(self) -> str:
-        return '(resource "{}" (mediatype "{}")\n'.format(escape_string(self.name), escape_string(self.mediatype)) +\
-               ' (url "{}")\n'.format(escape_string(self.url)) +\
-               ')'
+        return (
+            '(resource "{}" (mediatype "{}")\n'.format(
+                escape_string(self.name), escape_string(self.mediatype)
+            )
+            + ' (url "{}")\n'.format(escape_string(self.url))
+            + ")"
+        )
